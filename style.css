@@ -1,0 +1,170 @@
+body {
+	font-family: roboto, Helvetica, Arial, sans-serif;
+	color: #DFDFDF;
+	letter-spacing: 0.4px;
+	background-image: url("images/congruent_outline.png");
+	background-repeat: repeat;
+	line-height: 150%;
+}
+
+h1, h2, h3, h4 {
+	color: #1C6E8C;
+}
+
+h1 {
+	font-size: 4em;
+}
+
+h2 {
+	font-size: 2.5em;
+}
+
+h3 {
+	font-weight: normal;
+}
+
+h4 {
+	font-size: 1.2em;
+	color: #1C6E8C;
+}
+
+.page-flex {
+	display: flex;
+	display: -webkit-flex;
+	flex-direction: column;
+}
+
+.section-title {
+	width: 100%;
+	max-width: 1200px;
+	text-align: center;
+	margin: auto;
+}
+
+.row {
+	width: 100%;
+	max-width: 1200px;
+	text-align: center;
+	margin: auto;
+	margin-bottom: 30px;
+}
+
+.home-container {
+	display: flex;
+	display: -webkit-flex;
+	justify-content: space-around;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.headshot > div > img {
+	max-width: 350px;
+	max-height: 350px;
+}
+
+.headshot {
+	width: 100%;
+	margin-bottom: 30px;
+}
+
+.title-text {
+	max-width: 500px;
+}
+
+.description > h3 {
+	color: #FFFFFF;
+}
+
+p {
+	text-align: justify;
+	padding: 15px;
+	color: #444444;
+}
+
+.grid-header {
+	text-align: center;
+}
+
+
+.block-container {
+	display: flex;
+	display: -webkit-flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+}
+
+.block-outer {
+	width: 31%;
+	margin-bottom: 30px;
+	display: flex;
+	display: -webkit-flex;
+	background-color: #D0CCD0;
+}
+
+.phone-link {
+	text-decoration: none;
+	color: #D0CCD0;
+}
+
+.email-link {
+	text-decoration: none;
+	color: #D0CCD0;
+}
+
+.phone-link:hover {
+	text-decoration: underline;
+	color: #0B7A75;
+}
+
+.email-link:hover {
+	text-decoration: underline;
+	color: #0B7A75;
+}
+
+.social-link {
+	color: #D0CCD0;
+}
+
+.social-link:hover {
+	color: #0B7A75;
+}
+
+.social-outer {
+	width: 100%;
+	display: flex;
+	display: -webkit-flex;
+	justify-content: space-around;
+}
+
+.resume-link {
+	text-decoration: none;
+	color: inherit;
+}
+
+.resume-link:hover {
+	text-decoration: underline;
+	color: #0B7A75;
+}
+
+/*  GO 2-COLUMN BELOW 987 PIXELS */
+@media only screen and (max-width: 977px) {
+	.block-outer {width: 48%;}
+	.headshot > div > img {
+		max-height: 350px;
+		max-width: 350px;
+		width: 70%;
+	}
+	.headshot {width: 100%;}
+}
+
+/*  GO FULL WIDTH BELOW 480 PIXELS */
+@media only screen and (max-width: 480px) {
+	.block-outer {width: 100%;}
+	.headshot > div > img {
+		max-height: 350px;
+		max-width: 350px;
+		width: 85%;
+	}
+	.headshot {width: 100%}
+}
+
