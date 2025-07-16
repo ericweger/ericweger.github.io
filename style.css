@@ -1,170 +1,57 @@
+/* Base styles imported via CDN in HTML */
 body {
-	font-family: roboto, Helvetica, Arial, sans-serif;
-	color: #DFDFDF;
-	letter-spacing: 0.4px;
-	background-image: url("images/congruent_outline.png");
-	background-repeat: repeat;
-	line-height: 150%;
+    font-family: 'Inter', sans-serif;
 }
 
-h1, h2, h3, h4 {
-	color: #1C6E8C;
+.text-shadow {
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
 }
 
-h1 {
-	font-size: 4em;
+.text-shadow-sm {
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
 }
 
-h2 {
-	font-size: 2.5em;
+/* New Hero Section with geometric texture */
+.hero-section {
+    background-color: #1f2937; /* Dark charcoal */
+    /* Geometric texture from heropatterns.com */
+    background-image: linear-gradient(rgba(31, 41, 55, 0.8), rgba(31, 41, 55, 0.8)), url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e5e7eb' fill-opacity='0.1'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6H10zM24 24c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6H24zM42 24c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6H42zM52 26c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6H52zM28 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6H28z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-blend-mode: multiply;
 }
 
-h3 {
-	font-weight: normal;
+/* Navigation Link styles */
+.nav-link {
+    @apply text-slate-600 hover:text-red-800 transition-colors duration-300;
 }
 
-h4 {
-	font-size: 1.2em;
-	color: #1C6E8C;
+/* Button styles */
+.btn {
+    @apply px-8 py-3 rounded-full font-semibold transition-all duration-300 inline-block;
 }
 
-.page-flex {
-	display: flex;
-	display: -webkit-flex;
-	flex-direction: column;
+.btn-primary {
+    @apply bg-red-800 text-white hover:bg-red-900 hover:shadow-lg transform hover:-translate-y-1;
 }
 
-.section-title {
-	width: 100%;
-	max-width: 1200px;
-	text-align: center;
-	margin: auto;
+.btn-secondary {
+    @apply bg-white text-red-800 hover:bg-slate-100 border border-red-800;
 }
 
-.row {
-	width: 100%;
-	max-width: 1200px;
-	text-align: center;
-	margin: auto;
-	margin-bottom: 30px;
+/* Service Card styles */
+.service-card {
+    @apply bg-white p-8 rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300;
 }
 
-.home-container {
-	display: flex;
-	display: -webkit-flex;
-	justify-content: space-around;
-	align-items: center;
-	flex-wrap: wrap;
+/* Journey Timeline styles */
+.journey-item {
+    @apply mb-12 ml-10;
 }
 
-.headshot > div > img {
-	max-width: 350px;
-	max-height: 350px;
+.journey-dot {
+    @apply absolute -left-4 top-2 w-8 h-8 bg-red-800 rounded-full border-4 border-white;
 }
 
-.headshot {
-	width: 100%;
-	margin-bottom: 30px;
-}
-
-.title-text {
-	max-width: 500px;
-}
-
-.description > h3 {
-	color: #FFFFFF;
-}
-
-p {
-	text-align: justify;
-	padding: 15px;
-	color: #444444;
-}
-
-.grid-header {
-	text-align: center;
-}
-
-
-.block-container {
-	display: flex;
-	display: -webkit-flex;
-	justify-content: space-around;
-	flex-wrap: wrap;
-}
-
-.block-outer {
-	width: 31%;
-	margin-bottom: 30px;
-	display: flex;
-	display: -webkit-flex;
-	background-color: #D0CCD0;
-}
-
-.phone-link {
-	text-decoration: none;
-	color: #D0CCD0;
-}
-
-.email-link {
-	text-decoration: none;
-	color: #D0CCD0;
-}
-
-.phone-link:hover {
-	text-decoration: underline;
-	color: #0B7A75;
-}
-
-.email-link:hover {
-	text-decoration: underline;
-	color: #0B7A75;
-}
-
+/* Social Link styles */
 .social-link {
-	color: #D0CCD0;
+    @apply text-slate-200 hover:text-white hover:scale-110 transform transition-all duration-300;
 }
-
-.social-link:hover {
-	color: #0B7A75;
-}
-
-.social-outer {
-	width: 100%;
-	display: flex;
-	display: -webkit-flex;
-	justify-content: space-around;
-}
-
-.resume-link {
-	text-decoration: none;
-	color: inherit;
-}
-
-.resume-link:hover {
-	text-decoration: underline;
-	color: #0B7A75;
-}
-
-/*  GO 2-COLUMN BELOW 987 PIXELS */
-@media only screen and (max-width: 977px) {
-	.block-outer {width: 48%;}
-	.headshot > div > img {
-		max-height: 350px;
-		max-width: 350px;
-		width: 70%;
-	}
-	.headshot {width: 100%;}
-}
-
-/*  GO FULL WIDTH BELOW 480 PIXELS */
-@media only screen and (max-width: 480px) {
-	.block-outer {width: 100%;}
-	.headshot > div > img {
-		max-height: 350px;
-		max-width: 350px;
-		width: 85%;
-	}
-	.headshot {width: 100%}
-}
-
