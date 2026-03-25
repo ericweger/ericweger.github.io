@@ -14,6 +14,19 @@ body {
     margin: 0 auto;
     padding: 16px;
 }
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 8px;
+}
+.header .title-text, .menu {
+    display: block;
+}
+.menu a {
+    color: #1a6b3a;
+}
 h1 {
     font-size: 22px;
     font-weight: 600;
@@ -203,5 +216,4 @@ select {
 }
 .outside-link a {
     color: #1a6b3a;
-    text-decoration: none;
 }
