@@ -89,7 +89,7 @@ function calculate() {
 
     const ledger = document.getElementById("ledger");
     if (txns.length === 0) {
-        ledger.innerHTML = '<p class="zero-msg">All square — no payments needed!</p>';
+        ledger.innerHTML = '<p class="zero-msg">All square - no payments needed!</p>';
     } else {
         ledger.innerHTML = txns
             .map(
