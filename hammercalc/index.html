@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hammer Golf Calculator</title>
+  <title>Hammer Golf Calculator</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:system-ui,sans-serif;background:#f5f5f5;color:#111;font-size:15px}
@@ -12,14 +12,21 @@ h1{font-size:22px;font-weight:600;color:#1a6b3a;margin-bottom:2px}
 .card{background:#fff;border-radius:12px;padding:16px;margin-bottom:14px;border:1px solid #e5e5e5}
 label{display:block;font-size:12px;font-weight:600;color:#666;text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px}
 input,select{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:15px;background:#fff;color:#111}
+
+/* Flex Button Group */
+.selector-group {display: flex; gap: 8px; margin-bottom: 14px;}
+.sel-btn {flex: 1; padding: 10px; border: 1.5px solid #ddd; background: #fff; border-radius: 8px; cursor: pointer; font-weight: 600; color: #666; transition: 0.2s;}
+.sel-btn.active {border-color: #1a6b3a; background: #eef7f2; color: #1a6b3a;}
+
 .btn{width:100%;padding:13px;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;margin-top:6px}
 .btn-primary{background:#1a6b3a;color:#fff}
 .btn-secondary{background:#fff;color:#1a6b3a;border:1.5px solid #1a6b3a;margin-top:10px}
-.player-row{display:flex;gap:8px;align-items:flex-end;margin-bottom:10px}
-.player-row>div{flex:1}
-.player-row>div:first-child{flex:2}
-.player-row label{margin-bottom:4px}
-.player-row input{margin:0}
+
+.player-row{display:flex; justify-content: space-between; align-items:center; margin-bottom:12px; padding-bottom: 12px; border-bottom: 1px solid #f9f9f9;}
+.player-row:last-child {border-bottom: none; margin-bottom: 0;}
+.player-label {font-weight: 600; color: #333;}
+.player-input-wrap {width: 100px;}
+
 .results-table{width:100%;border-collapse:collapse;font-size:14px}
 .results-table th{font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.4px;padding:6px 8px;border-bottom:1.5px solid #eee;text-align:left}
 .results-table th:last-child,.results-table td:last-child{text-align:right}
@@ -36,33 +43,28 @@ input,select{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8p
 .ledger-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #f5f5f5}
 .ledger-row:last-child{border-bottom:none}
 .ledger-amt{font-weight:700;font-size:16px;color:#c0392b}
-.check{color:#1a6b3a;font-size:18px}
-.zero-msg{color:#888;font-size:14px;padding:8px 0}
 .sum-row{font-size:12px;color:#aaa;text-align:center;padding-top:6px}
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>Hammer</h1>
-  <p class="sub">Golf Bean Calculator</p>
+  <p class="sub">Golf bean calculator</p>
 
-  <div class="card" id="setup-card">
-    <div style="margin-bottom:14px">
-      <label>Number of players</label>
-      <select id="num-players" onchange="renderPlayers()">
-        <option value="3">3 players</option>
-        <option value="4" selected>4 players</option>
-        <option value="5">5 players</option>
-      </select>
+  <div class="card">
+    <label>Number of players</label>
+    <div class="selector-group">
+        <button class="sel-btn" onclick="setPlayers(3)" id="btn-3">3</button>
+        <button class="sel-btn active" onclick="setPlayers(4)" id="btn-4">4</button>
+        <button class="sel-btn" onclick="setPlayers(5)" id="btn-5">5</button>
     </div>
-    <div style="margin-bottom:14px">
-      <label>Point value ($)</label>
-      <input type="number" id="point-val" value="0.25" min="0.05" step="0.05">
-    </div>
+
+    <label>Point value ($)</label>
+    <input type="number" id="point-val" value="0.25" min="0.05" step="0.05">
   </div>
 
   <div class="card">
-    <div class="section-title">Player names &amp; beans</div>
+    <div class="section-title">Enter Beans</div>
     <div id="player-inputs"></div>
   </div>
 
@@ -73,7 +75,7 @@ input,select{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8p
       <div class="section-title">Results</div>
       <table class="results-table">
         <thead>
-          <tr><th>Name</th><th>Beans</th><th>Total</th><th>Owes</th></tr>
+          <tr><th>Player</th><th>Beans</th><th>Total</th><th>Owes</th></tr>
         </thead>
         <tbody id="results-body"></tbody>
       </table>
@@ -85,78 +87,97 @@ input,select{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8p
       <div id="ledger"></div>
     </div>
 
-    <button class="btn btn-secondary" onclick="reset()">Start over</button>
+    <button class="btn btn-secondary" onclick="reset()">Clear All</button>
   </div>
 </div>
 
 <script>
+let playerCount = 4;
+
+function setPlayers(n) {
+    playerCount = n;
+    // Update UI buttons
+    [3,4,5].forEach(num => {
+        document.getElementById(`btn-${num}`).classList.toggle('active', num === n);
+    });
+    renderPlayers();
+}
+
 function renderPlayers(){
-  const n=parseInt(document.getElementById('num-players').value);
   const el=document.getElementById('player-inputs');
   el.innerHTML='';
-  for(let i=0;i<n;i++){
-    el.innerHTML+=`<div class="player-row">
-      <div><label>Player ${i+1}</label><input type="text" id="name-${i}" placeholder="Player ${i+1}" value="Player ${i+1}"></div>
-      <div><label>Beans</label><input type="number" id="beans-${i}" placeholder="0" min="0" value=""></div>
+  for(let i=0; i < playerCount; i++){
+    el.innerHTML+=`
+    <div class="player-row">
+      <div class="player-label">Player ${i+1}</div>
+      <div class="player-input-wrap">
+        <input type="number" id="beans-${i}" placeholder="0" min="0" value="">
+      </div>
     </div>`;
   }
 }
 
 function calculate(){
-  const n=parseInt(document.getElementById('num-players').value);
   const pv=parseFloat(document.getElementById('point-val').value)||0.25;
-  const names=[],beans=[];
-  for(let i=0;i<n;i++){
-    names.push(document.getElementById('name-'+i).value||'Player '+(i+1));
+  const beans=[];
+  const names=[];
+
+  for(let i=0; i < playerCount; i++){
+    names.push('Player ' + (i+1));
     beans.push(parseFloat(document.getElementById('beans-'+i).value)||0);
   }
 
+  const totalSum = beans.reduce((a, b) => a + b, 0);
 
-  const totalSum=beans.reduce((s,x) => s + x, 0);
-  const totals=beans.map((b,i)=>{
-      return (n*b)-totalSum
-  });
+  // Logic: (n * b) - totalSum
+  const totals = beans.map(b => (playerCount * b) - totalSum);
+  const owes = totals.map(t => t * pv);
+  const sumCheck = owes.reduce((s, x) => s + x, 0);
 
-  const owes=totals.map(t=>t*pv);
-  const sumCheck=owes.reduce((s,x)=>s+x,0);
+  const tbody = document.getElementById('results-body');
+  tbody.innerHTML = '';
 
-  const tbody=document.getElementById('results-body');
-  tbody.innerHTML='';
-  const sorted=[...totals.map((t,i)=>i)].sort((a,b)=>totals[b]-totals[a]);
-  sorted.forEach(i=>{
-    const t=totals[i], o=owes[i];
-    const tCls=t>0?'pos':t<0?'neg':'zero';
-    const oCls=o>0?'pos':o<0?'neg':'zero';
-    const winner=i===sorted[0]&&t>0?' winner-row':'';
-    tbody.innerHTML+=`<tr class="${winner}">
+  const indices = [...Array(playerCount).keys()];
+  const sorted = indices.sort((a, b) => totals[b] - totals[a]);
+
+  sorted.forEach(i => {
+    const t = totals[i], o = owes[i];
+    const tCls = t > 0 ? 'pos' : t < 0 ? 'neg' : 'zero';
+    const oCls = o > 0 ? 'pos' : o < 0 ? 'neg' : 'zero';
+    const winner = i === sorted[0] && t > 0 ? ' winner-row' : '';
+
+    tbody.innerHTML += `
+    <tr class="${winner}">
       <td class="big-name">${names[i]}</td>
       <td style="text-align:center">${beans[i]}</td>
-      <td class="${tCls}" style="text-align:center">${t>0?'+':''}${t}</td>
-      <td class="${oCls}">${o>=0?'+$':'−$'}${Math.abs(o).toFixed(2)}</td>
+      <td class="${tCls}" style="text-align:center">${t > 0 ? '+' : ''}${t}</td>
+      <td class="${oCls}">${o >= 0 ? '+$' : '−$'}${Math.abs(o).toFixed(2)}</td>
     </tr>`;
   });
 
-  document.getElementById('sum-check').textContent=
-    Math.abs(sumCheck)<0.01?'✓ All totals sum to zero':'⚠ Check your bean counts';
+  document.getElementById('sum-check').textContent =
+    Math.abs(sumCheck) < 0.01 ? '✓ All totals sum to zero' : '⚠ Check your bean counts';
 
-  const debtors=names.map((_,i)=>({i,a:owes[i]})).filter(x=>x.a<0).sort((a,b)=>a.a-b.a);
-  const creditors=names.map((_,i)=>({i,a:owes[i]})).filter(x=>x.a>0).sort((a,b)=>b.a-a.a);
-  const d=debtors.map(x=>({...x})), c=creditors.map(x=>({...x}));
-  const txns=[];
-  let di=0,ci=0;
-  while(di<d.length&&ci<c.length){
-    const amt=Math.min(-d[di].a,c[ci].a);
-    if(amt>0.004) txns.push({from:d[di].i,to:c[ci].i,amt});
-    d[di].a+=amt; c[ci].a-=amt;
-    if(Math.abs(d[di].a)<0.004) di++;
-    if(Math.abs(c[ci].a)<0.004) ci++;
+  // Settle payments
+  const debtors = names.map((_,i) => ({i, a: owes[i]})).filter(x => x.a < -0.004).sort((a,b) => a.a - b.a);
+  const creditors = names.map((_,i) => ({i, a: owes[i]})).filter(x => x.a > 0.004).sort((a,b) => b.a - a.a);
+  const txns = [];
+  let di=0, ci=0;
+
+  while(di < debtors.length && ci < creditors.length) {
+    const amt = Math.min(-debtors[di].a, creditors[ci].a);
+    if(amt > 0.004) txns.push({from: debtors[di].i, to: creditors[ci].i, amt});
+    debtors[di].a += amt;
+    creditors[ci].a -= amt;
+    if(Math.abs(debtors[di].a) < 0.004) di++;
+    if(Math.abs(creditors[ci].a) < 0.004) ci++;
   }
 
-  const ledger=document.getElementById('ledger');
-  if(txns.length===0){
-    ledger.innerHTML='<p class="zero-msg">All square — no payments needed!</p>';
+  const ledger = document.getElementById('ledger');
+  if(txns.length === 0){
+    ledger.innerHTML = '<p class="zero-msg">All square — no payments needed!</p>';
   } else {
-    ledger.innerHTML=txns.map(t=>`
+    ledger.innerHTML = txns.map(t => `
       <div class="ledger-row">
         <span>${names[t.from]}</span>
         <span style="color:#aaa;font-size:13px">pays ${names[t.to]}</span>
@@ -164,14 +185,14 @@ function calculate(){
       </div>`).join('');
   }
 
-  document.getElementById('results').style.display='block';
-  document.getElementById('results').scrollIntoView({behavior:'smooth'});
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('results').scrollIntoView({behavior: 'smooth'});
 }
 
 function reset(){
-  document.getElementById('results').style.display='none';
+  document.getElementById('results').style.display = 'none';
   renderPlayers();
-  window.scrollTo({top:0,behavior:'smooth'});
+  window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
 renderPlayers();
