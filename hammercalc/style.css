@@ -209,11 +209,18 @@ select {
     padding-top: 6px;
 }
 .outside-link {
-    font-size: 12px;
+    font-size: 14px;
     color: #666;
     margin-top: 8px;
+    margin-bottom: 14px;
     text-align: center;
 }
 .outside-link a {
     color: #1a6b3a;
+}
+.home-link {
+    margin: auto;
+}
+.home-link img {
+    width: 60px;
 }
